@@ -18,6 +18,7 @@ router.post(
     body('fullName').notEmpty().withMessage('Имя обязательно'),
     body('specialization').notEmpty().withMessage('Специализация обязательна'),
     body('photo').optional().isString(),
+    // добавь другие поля по необходимости
   ],
   (req, res, next) => {
     const errors = validationResult(req);
