@@ -27,8 +27,6 @@ router.post(
   checkRole('admin'),
   [
     body('name').notEmpty().withMessage('Название симптома обязательно'),
-    body('description').notEmpty().withMessage('Описание обязательно'),
-    // другие проверки по необходимости
   ],
   (req, res, next) => {
     const errors = validationResult(req);
@@ -46,8 +44,6 @@ router.patch(
   checkRole('admin'),
   [
     body('name').optional().notEmpty().withMessage('Название не может быть пустым'),
-    body('description').optional().notEmpty().withMessage('Описание не может быть пустым'),
-    // другие проверки
   ],
   (req, res, next) => {
     const errors = validationResult(req);
