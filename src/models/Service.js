@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 const articleSectionSchema = new mongoose.Schema({
     heading: String,
@@ -17,6 +18,23 @@ const serviceSchema = new mongoose.Schema({
     text: { type: String, required: true },
     article: articleSchema,
     slug: { type: String, unique: true, sparse: true }, // Уникальный slug для SEO
+});
+
+// Автоматическая генерация/обновление slug при сохранении/обновлении
+serviceSchema.pre('save', function(next) {
+    if (this.isModified('text')) {
+        this.slug = slugify(this.text, { lower: true, strict: true, locale: 'ru' });
+    }
+    next();
+});
+
+serviceSchema.pre('findOneAndUpdate', function(next) {
+    const update = this.getUpdate();
+    if (update.text) {
+        update.slug = slugify(update.text, { lower: true, strict: true, locale: 'ru' });
+        this.setUpdate(update);
+    }
+    next();
 });
 
 module.exports = mongoose.model('Service', serviceSchema);

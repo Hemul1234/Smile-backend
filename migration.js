@@ -1,18 +1,18 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
-const Service = require('./src/models/Service'); // Путь к модели Service
+const Doctor = require('./src/models/Doctor'); // Путь к модели Doctor
 
 const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/smile';
 
 async function addSlugs() {
-  await mongoose.connect(MONGO_URL, {});
+  await mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
-  const services = await Service.find({});
-  for (const service of services) {
-    // Генерируем slug из поля text (или другого, если нужно)
-    service.slug = slugify(service.text, { lower: true, strict: true, locale: 'ru' });
-    await service.save();
-    console.log(`Updated ${service.text} - slug: ${service.slug}`);
+  const doctors = await Doctor.find({});
+  for (const doctor of doctors) {
+    // Генерируем slug из поля name
+    doctor.slug = slugify(doctor.name, { lower: true, strict: true, locale: 'ru' });
+    await doctor.save();
+    console.log(`Updated ${doctor.name} - slug: ${doctor.slug}`);
   }
   await mongoose.disconnect();
   console.log('Migration completed!');

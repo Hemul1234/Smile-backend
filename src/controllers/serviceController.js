@@ -64,7 +64,11 @@ exports.createService = async (req, res) => {
     await service.save();
     res.status(201).json(service);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    if (err.code === 11000 && err.keyPattern && err.keyPattern.slug) {
+      res.status(400).json({ error: 'Услуга с таким названием (slug) уже существует.' });
+    } else {
+      res.status(400).json({ error: err.message });
+    }
   }
 };
 

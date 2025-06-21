@@ -1,28 +1,47 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
-const doctorRoutes = require('./routes/doctorRoutes'); // Подключаем маршруты для врачей
-const reviewRoutes = require('./routes/reviewRoutes'); // Подключаем маршруты для отзывов
-const serviceRoutes = require('./routes/serviceRoutes'); // Подключаем маршруты для услуг
+const doctorRoutes = require('./routes/doctorRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
+const serviceRoutes = require('./routes/serviceRoutes');
+const symptomRoutes = require('./routes/symptomRoutes');
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/user');
+const { adminJs, adminRouter } = require('./admin/adminjs');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware для работы с JSON
+// Middleware
 app.use(express.json());
+app.use(cors({
+  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  credentials: true,
+}));
+app.use(cookieParser());
 
-//Пример базового роута для проверки
-app.get('/', (rec, res) => {
-    res.send('Smile Backend API is running!');
-})
+// Проверочный маршрут
+app.get('/', (req, res) => {
+  res.send('Smile Backend API is running!');
+});
 
-// Подключаем маршруты (CRUD)
+// CRUD-роуты
 app.use('/api/doctors', doctorRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/services', serviceRoutes);
+app.use('/api/symptoms', symptomRoutes);
 
-// Подключение к MongoDB
+// Авторизация и пользователь
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+
+// AdminJS
+app.use(adminJs.options.rootPath, adminRouter);
+
+// MongoDB
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('MongoDB connected!');

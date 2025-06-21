@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 const doctorSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -8,7 +9,25 @@ const doctorSchema = new mongoose.Schema({
   education: { type: String, default: '' },
   advanced: [{ type: String }],
   experience: { type: String, default: '' },
-  cost: { type: Number, default: 0 }
+  cost: { type: Number, default: 0 },
+  slug: { type: String, unique: true, sparse: true }, // Новый slug!
+});
+
+// Автоматическая генерация/обновление slug при сохранении/изменении name
+doctorSchema.pre('save', function(next) {
+  if (this.isModified('name')) {
+    this.slug = slugify(this.name, { lower: true, strict: true, locale: 'ru' });
+  }
+  next();
+});
+
+doctorSchema.pre('findOneAndUpdate', function(next) {
+  const update = this.getUpdate();
+  if (update.name) {
+    update.slug = slugify(update.name, { lower: true, strict: true, locale: 'ru' });
+    this.setUpdate(update);
+  }
+  next();
 });
 
 module.exports = mongoose.model('Doctor', doctorSchema);
