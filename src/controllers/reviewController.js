@@ -24,7 +24,16 @@ exports.getReviewById = async (req, res) => {
 // Создать новый отзыв
 exports.createReview = async (req, res) => {
   try {
-    const newReview = new Review(req.body);
+    // Валидация
+    const { text, rating } = req.body;
+    if (!text || typeof rating !== 'number') {
+      return res.status(400).json({ error: 'Text and rating are required' });
+    }
+    // Привязываем пользователя-автора
+    const newReview = new Review({
+      ...req.body,
+      user: req.user.userId
+    });
     await newReview.save();
     res.status(201).json(newReview);
   } catch (err) {
@@ -35,12 +44,20 @@ exports.createReview = async (req, res) => {
 // Обновить отзыв
 exports.patchReview = async (req, res) => {
   try {
-    const review = await Review.findByIdAndUpdate(
-      req.params.id,
-      { $set: req.body }, // только те поля, что пришли
-      { new: true, runValidators: true }
-    );
+    const review = await Review.findById(req.params.id);
     if (!review) return res.status(404).json({ error: 'Review not found' });
+
+    // Только автор или админ может редактировать
+    if (
+      review.user.toString() !== req.user.userId &&
+      req.user.role !== 'admin'
+    ) {
+      return res.status(403).json({ error: 'Нет прав на редактирование' });
+    }
+
+    // Здесь можешь добавить валидацию новых данных (по желанию)
+    Object.assign(review, req.body);
+    await review.save();
     res.json(review);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -50,8 +67,18 @@ exports.patchReview = async (req, res) => {
 // Удалить отзыв
 exports.deleteReview = async (req, res) => {
   try {
-    const review = await Review.findByIdAndDelete(req.params.id);
+    const review = await Review.findById(req.params.id);
     if (!review) return res.status(404).json({ error: 'Review not found' });
+
+    // Только автор или админ может удалить
+    if (
+      review.user.toString() !== req.user.userId &&
+      req.user.role !== 'admin'
+    ) {
+      return res.status(403).json({ error: 'Нет прав на удаление' });
+    }
+
+    await review.deleteOne();
     res.json({ message: 'Review deleted' });
   } catch (err) {
     res.status(500).json({ error: err.message });
