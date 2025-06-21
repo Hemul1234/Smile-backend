@@ -3,6 +3,7 @@ const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const authController = require('../controllers/authController');
 
+// Регистрация пользователя
 router.post(
   '/register',
   [
@@ -20,10 +21,11 @@ router.post(
   }
 );
 
+// Логин пользователя
 router.post(
   '/login',
   [
-    body('email').isEmail().withMessage('Некорректный email'),
+    body('identifier').notEmpty().withMessage('Email или телефон обязателен'),
     body('password').notEmpty().withMessage('Пароль обязателен')
   ],
   (req, res, next) => {
@@ -34,5 +36,11 @@ router.post(
     authController.login(req, res, next);
   }
 );
+
+// Обновление access токена (refresh)
+router.post('/refresh', authController.refresh);
+
+// Выход пользователя (API)
+router.post('/logout', authController.logout);
 
 module.exports = router;

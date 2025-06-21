@@ -10,7 +10,7 @@ const adminRouter = AdminJSExpress.buildAuthenticatedRouter(
   adminJs,
   {
     authenticate: async (email, password) => {
-      // Только для пользователей с ролью 'admin'
+      // Только пользователи с ролью 'admin'
       const admin = await User.findOne({ email, role: 'admin' });
       if (admin && await admin.comparePassword(password)) {
         return { email: admin.email, id: admin._id, role: admin.role };
