@@ -1,81 +1,70 @@
 const Doctor = require('../models/Doctor');
 
-// Получить всех докторов
+// Получить всех врачей
 exports.getAllDoctors = async (req, res) => {
   try {
-    const doctors = await Doctor.find({});
+    const doctors = await Doctor.find();
     res.json(doctors);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Ошибка сервера при получении списка врачей' });
   }
 };
 
-// Получить доктора по id
+// Получить врача по id
 exports.getDoctorById = async (req, res) => {
   try {
-    const { id } = req.params;
-    const doctor = await Doctor.findById(id);
-    if (!doctor) return res.status(404).json({ error: 'Doctor not found' });
+    const doctor = await Doctor.findById(req.params.id);
+    if (!doctor) return res.status(404).json({ error: 'Врач не найден' });
     res.json(doctor);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Ошибка сервера при поиске врача' });
   }
 };
 
-// Получить доктора по slug
+// Получить врача по slug
 exports.getDoctorBySlug = async (req, res) => {
   try {
-    const { slug } = req.params;
-    const doctor = await Doctor.findOne({ slug });
-    if (!doctor) return res.status(404).json({ error: 'Doctor not found' });
+    const doctor = await Doctor.findOne({ slug: req.params.slug });
+    if (!doctor) return res.status(404).json({ error: 'Врач не найден' });
     res.json(doctor);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Ошибка сервера при поиске врача' });
   }
 };
 
-// Создать доктора
+// Создать врача
 exports.createDoctor = async (req, res) => {
   try {
     const doctor = new Doctor(req.body);
     await doctor.save();
     res.status(201).json(doctor);
   } catch (err) {
-    if (err.code === 11000 && err.keyPattern && err.keyPattern.slug) {
-      res.status(400).json({ error: 'Доктор с таким именем (slug) уже существует.' });
-    } else {
-      res.status(400).json({ error: err.message });
-    }
+    res.status(400).json({ error: 'Ошибка при создании врача: ' + err.message });
   }
 };
 
-// Обновить доктора
+// Обновить врача
 exports.patchDoctor = async (req, res) => {
   try {
-    const { id } = req.params;
-    const doctor = await Doctor.findOneAndUpdate({ _id: id }, req.body, {
-      new: true,
-      runValidators: true
-    });
-    if (!doctor) return res.status(404).json({ error: 'Doctor not found' });
+    const doctor = await Doctor.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true, runValidators: true }
+    );
+    if (!doctor) return res.status(404).json({ error: 'Врач не найден' });
     res.json(doctor);
   } catch (err) {
-    if (err.code === 11000 && err.keyPattern && err.keyPattern.slug) {
-      res.status(400).json({ error: 'Доктор с таким именем (slug) уже существует.' });
-    } else {
-      res.status(400).json({ error: err.message });
-    }
+    res.status(400).json({ error: 'Ошибка при обновлении врача: ' + err.message });
   }
 };
 
-// Удалить доктора
+// Удалить врача
 exports.deleteDoctor = async (req, res) => {
   try {
-    const { id } = req.params;
-    const doctor = await Doctor.findByIdAndDelete(id);
-    if (!doctor) return res.status(404).json({ error: 'Doctor not found' });
-    res.json({ message: 'Doctor deleted' });
+    const doctor = await Doctor.findByIdAndDelete(req.params.id);
+    if (!doctor) return res.status(404).json({ error: 'Врач не найден' });
+    res.json({ message: 'Врач удалён' });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Ошибка сервера при удалении врача' });
   }
 };

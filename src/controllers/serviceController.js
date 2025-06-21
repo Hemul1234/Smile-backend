@@ -3,57 +3,56 @@ const Service = require('../models/Service');
 // Получить все услуги
 exports.getAllServices = async (req, res) => {
   try {
-    const services = await Service.find({});
+    const services = await Service.find();
     res.json(services);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Ошибка сервера при получении списка услуг' });
   }
 };
 
-// Получить все услуги по категории
+// Получить услуги по категории
 exports.getServicesByCategory = async (req, res) => {
   try {
-    const { category } = req.params;
-    const services = await Service.find({ category });
+    const services = await Service.find({ category: req.params.category });
     res.json(services);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Ошибка сервера при поиске услуг по категории' });
   }
 };
 
-// Получить одну услугу по slug
+// Получить услугу по slug
 exports.getServiceBySlug = async (req, res) => {
   try {
-    const { slug } = req.params;
-    const service = await Service.findOne({ slug });
-    if (!service) return res.status(404).json({ error: 'Service not found' });
+    const service = await Service.findOne({ slug: req.params.slug });
+    if (!service) return res.status(404).json({ error: 'Услуга не найдена' });
     res.json(service);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Ошибка сервера при поиске услуги' });
   }
 };
 
-// Получить одну услугу по категории и slug (если нужно строгая фильтрация)
+// Получить услугу по категории и slug
 exports.getServiceByCategoryAndSlug = async (req, res) => {
   try {
-    const { category, slug } = req.params;
-    const service = await Service.findOne({ category, slug });
-    if (!service) return res.status(404).json({ error: 'Service not found' });
+    const service = await Service.findOne({
+      category: req.params.category,
+      slug: req.params.slug
+    });
+    if (!service) return res.status(404).json({ error: 'Услуга не найдена' });
     res.json(service);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Ошибка сервера при поиске услуги' });
   }
 };
 
 // Получить услугу по id
 exports.getServiceById = async (req, res) => {
   try {
-    const { id } = req.params;
-    const service = await Service.findById(id);
-    if (!service) return res.status(404).json({ error: 'Service not found' });
+    const service = await Service.findById(req.params.id);
+    if (!service) return res.status(404).json({ error: 'Услуга не найдена' });
     res.json(service);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Ошибка сервера при поиске услуги' });
   }
 };
 
@@ -64,37 +63,32 @@ exports.createService = async (req, res) => {
     await service.save();
     res.status(201).json(service);
   } catch (err) {
-    if (err.code === 11000 && err.keyPattern && err.keyPattern.slug) {
-      res.status(400).json({ error: 'Услуга с таким названием (slug) уже существует.' });
-    } else {
-      res.status(400).json({ error: err.message });
-    }
+    res.status(400).json({ error: 'Ошибка при создании услуги: ' + err.message });
   }
 };
 
-// Обновить услугу (частично)
+// Обновить услугу
 exports.patchService = async (req, res) => {
   try {
-    const { id } = req.params;
-    const service = await Service.findOneAndUpdate({ _id: id }, req.body, {
-      new: true,
-      runValidators: true
-    });
-    if (!service) return res.status(404).json({ error: 'Service not found' });
+    const service = await Service.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true, runValidators: true }
+    );
+    if (!service) return res.status(404).json({ error: 'Услуга не найдена' });
     res.json(service);
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    res.status(400).json({ error: 'Ошибка при обновлении услуги: ' + err.message });
   }
 };
 
 // Удалить услугу
 exports.deleteService = async (req, res) => {
   try {
-    const { id } = req.params;
-    const service = await Service.findByIdAndDelete(id);
-    if (!service) return res.status(404).json({ error: 'Service not found' });
-    res.json({ message: 'Service deleted' });
+    const service = await Service.findByIdAndDelete(req.params.id);
+    if (!service) return res.status(404).json({ error: 'Услуга не найдена' });
+    res.json({ message: 'Услуга удалена' });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Ошибка сервера при удалении услуги' });
   }
 };
