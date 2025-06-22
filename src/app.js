@@ -11,6 +11,9 @@ import symptomRoutes from './routes/symptomRoutes.js';
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/user.js';
 import vacancyRoutes from './routes/vacancyRoutes.js';
+import appointmentRoutes from './routes/appointmentRoutes.js';
+import contactInfoRoutes from './routes/contactInfoRoutes.js';
+
 import { adminJs, adminRouter } from './admin/adminjs.js';
 
 const app = express();
@@ -35,6 +38,8 @@ app.use('/api/reviews', reviewRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/symptoms', symptomRoutes);
 app.use('/api/vacancies', vacancyRoutes);
+app.use('/api/appointments', appointmentRoutes);
+app.use('/api/contact-info', contactInfoRoutes);
 
 // Авторизация и пользователь
 app.use('/api/auth', authRoutes);
