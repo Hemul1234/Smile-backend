@@ -1,16 +1,16 @@
-require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
+import 'dotenv/config';
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
-const doctorRoutes = require('./routes/doctorRoutes');
-const reviewRoutes = require('./routes/reviewRoutes');
-const serviceRoutes = require('./routes/serviceRoutes');
-const symptomRoutes = require('./routes/symptomRoutes');
-const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/user');
-const { adminJs, adminRouter } = require('./admin/adminjs');
+import doctorRoutes from './routes/doctorRoutes.js';
+import reviewRoutes from './routes/reviewRoutes.js';
+import serviceRoutes from './routes/serviceRoutes.js';
+import symptomRoutes from './routes/symptomRoutes.js';
+import authRoutes from './routes/auth.js';
+import userRoutes from './routes/user.js';
+import { adminJs, adminRouter } from './admin/adminjs.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;

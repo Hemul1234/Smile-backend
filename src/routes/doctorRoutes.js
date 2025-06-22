@@ -1,9 +1,9 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { body, validationResult } = require('express-validator');
-const doctorController = require('../controllers/doctorController');
-const checkAuth = require('../middleware/checkAuth');
-const checkRole = require('../middleware/checkRole');
+import { body, validationResult } from 'express-validator';
+import doctorController from '../controllers/doctorController';
+import checkAuth from '../middleware/checkAuth';
+import checkRole from '../middleware/checkRole';
 
 // CRUD маршруты
 router.get('/', doctorController.getAllDoctors);
@@ -50,4 +50,4 @@ router.patch(
 
 router.delete('/:id', checkAuth, checkRole('admin'), doctorController.deleteDoctor);
 
-module.exports = router;
+export default router;

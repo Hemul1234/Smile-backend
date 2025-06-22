@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const checkAuth = require('../middleware/checkAuth');
-const User = require('../models/User');
+import checkAuth from '../middleware/checkAuth.js';
+import User from '../models/User.js';
 
 router.get('/me', checkAuth, async (req, res) => {
   const user = await User.findById(req.user.userId).select('-password');
@@ -9,7 +9,7 @@ router.get('/me', checkAuth, async (req, res) => {
   res.json(user);
 });
 
-module.exports = router;
+export default router;
 
 //Пользователь логинится, получает JWT-токен.
 //При запросе к /me в заголовке передаёт:

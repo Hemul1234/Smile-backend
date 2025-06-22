@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const slugify = require('slugify');
-const Doctor = require('./src/models/Doctor'); // Путь к модели Doctor
+const mongoose = from 'mongoose');
+const slugify = from 'slugify');
+const Doctor = from './src/models/Doctor'); // Путь к модели Doctor
 
 const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/smile';
 

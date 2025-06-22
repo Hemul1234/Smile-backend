@@ -1,7 +1,7 @@
-const Service = require('../models/Service');
+import Service from '../models/Service.js';
 
 // Получить все услуги
-exports.getAllServices = async (req, res) => {
+export const getAllServices = async (req, res) => {
   try {
     const services = await Service.find();
     res.json(services);
@@ -11,7 +11,7 @@ exports.getAllServices = async (req, res) => {
 };
 
 // Получить услуги по категории
-exports.getServicesByCategory = async (req, res) => {
+export const getServicesByCategory = async (req, res) => {
   try {
     const services = await Service.find({ category: req.params.category });
     res.json(services);
@@ -21,7 +21,7 @@ exports.getServicesByCategory = async (req, res) => {
 };
 
 // Получить услугу по slug
-exports.getServiceBySlug = async (req, res) => {
+export const getServiceBySlug = async (req, res) => {
   try {
     const service = await Service.findOne({ slug: req.params.slug });
     if (!service) return res.status(404).json({ error: 'Услуга не найдена' });
@@ -32,7 +32,7 @@ exports.getServiceBySlug = async (req, res) => {
 };
 
 // Получить услугу по категории и slug
-exports.getServiceByCategoryAndSlug = async (req, res) => {
+export const getServiceByCategoryAndSlug = async (req, res) => {
   try {
     const service = await Service.findOne({
       category: req.params.category,
@@ -46,7 +46,7 @@ exports.getServiceByCategoryAndSlug = async (req, res) => {
 };
 
 // Получить услугу по id
-exports.getServiceById = async (req, res) => {
+export const getServiceById = async (req, res) => {
   try {
     const service = await Service.findById(req.params.id);
     if (!service) return res.status(404).json({ error: 'Услуга не найдена' });
@@ -57,7 +57,7 @@ exports.getServiceById = async (req, res) => {
 };
 
 // Создать услугу
-exports.createService = async (req, res) => {
+export const createService = async (req, res) => {
   try {
     const service = new Service(req.body);
     await service.save();
@@ -68,7 +68,7 @@ exports.createService = async (req, res) => {
 };
 
 // Обновить услугу
-exports.patchService = async (req, res) => {
+export const patchService = async (req, res) => {
   try {
     const service = await Service.findByIdAndUpdate(
       req.params.id,
@@ -83,7 +83,7 @@ exports.patchService = async (req, res) => {
 };
 
 // Удалить услугу
-exports.deleteService = async (req, res) => {
+export const deleteService = async (req, res) => {
   try {
     const service = await Service.findByIdAndDelete(req.params.id);
     if (!service) return res.status(404).json({ error: 'Услуга не найдена' });

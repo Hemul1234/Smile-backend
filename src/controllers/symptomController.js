@@ -1,7 +1,7 @@
-const Symptom = require('../models/Symptom');
+import Symptom from '../models/Symptom.js';
 
 // Получить все симптомы
-exports.getAllSymptoms = async (req, res) => {
+export const getAllSymptoms = async (req, res) => {
   try {
     const symptoms = await Symptom.find();
     res.json(symptoms);
@@ -11,7 +11,7 @@ exports.getAllSymptoms = async (req, res) => {
 };
 
 // Получить симптом по id
-exports.getSymptomById = async (req, res) => {
+export const getSymptomById = async (req, res) => {
   try {
     const symptom = await Symptom.findById(req.params.id);
     if (!symptom) return res.status(404).json({ error: 'Симптом не найден' });
@@ -22,7 +22,7 @@ exports.getSymptomById = async (req, res) => {
 };
 
 // Получить симптом по slug
-exports.getSymptomBySlug = async (req, res) => {
+export const getSymptomBySlug = async (req, res) => {
   try {
     const symptom = await Symptom.findOne({ slug: req.params.slug });
     if (!symptom) return res.status(404).json({ error: 'Симптом не найден' });
@@ -33,7 +33,7 @@ exports.getSymptomBySlug = async (req, res) => {
 };
 
 // Получить симптомы по категории
-exports.getSymptomsByCategory = async (req, res) => {
+export const getSymptomsByCategory = async (req, res) => {
   try {
     const symptoms = await Symptom.find({ category: req.params.category });
     res.json(symptoms);
@@ -43,7 +43,7 @@ exports.getSymptomsByCategory = async (req, res) => {
 };
 
 // Получить симптомы по slugService
-exports.getSymptomsBySlugService = async (req, res) => {
+export const getSymptomsBySlugService = async (req, res) => {
   try {
     const symptoms = await Symptom.find({ slugService: req.params.slugService });
     res.json(symptoms);
@@ -53,7 +53,7 @@ exports.getSymptomsBySlugService = async (req, res) => {
 };
 
 // Создать симптом
-exports.createSymptom = async (req, res) => {
+export const createSymptom = async (req, res) => {
   try {
     const symptom = new Symptom(req.body);
     await symptom.save();
@@ -64,7 +64,7 @@ exports.createSymptom = async (req, res) => {
 };
 
 // Обновить симптом
-exports.patchSymptom = async (req, res) => {
+export const patchSymptom = async (req, res) => {
   try {
     const symptom = await Symptom.findByIdAndUpdate(
       req.params.id,
@@ -79,7 +79,7 @@ exports.patchSymptom = async (req, res) => {
 };
 
 // Удалить симптом
-exports.deleteSymptom = async (req, res) => {
+export const deleteSymptom = async (req, res) => {
   try {
     const symptom = await Symptom.findByIdAndDelete(req.params.id);
     if (!symptom) return res.status(404).json({ error: 'Симптом не найден' });

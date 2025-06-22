@@ -1,7 +1,7 @@
-const Doctor = require('../models/Doctor');
+import Doctor from '../models/Doctor.js';
 
 // Получить всех врачей
-exports.getAllDoctors = async (req, res) => {
+export const getAllDoctors = async (req, res) => {
   try {
     const doctors = await Doctor.find();
     res.json(doctors);
@@ -11,7 +11,7 @@ exports.getAllDoctors = async (req, res) => {
 };
 
 // Получить врача по id
-exports.getDoctorById = async (req, res) => {
+export const getDoctorById = async (req, res) => {
   try {
     const doctor = await Doctor.findById(req.params.id);
     if (!doctor) return res.status(404).json({ error: 'Врач не найден' });
@@ -22,7 +22,7 @@ exports.getDoctorById = async (req, res) => {
 };
 
 // Получить врача по slug
-exports.getDoctorBySlug = async (req, res) => {
+export const getDoctorBySlug = async (req, res) => {
   try {
     const doctor = await Doctor.findOne({ slug: req.params.slug });
     if (!doctor) return res.status(404).json({ error: 'Врач не найден' });
@@ -33,7 +33,7 @@ exports.getDoctorBySlug = async (req, res) => {
 };
 
 // Создать врача
-exports.createDoctor = async (req, res) => {
+export const createDoctor = async (req, res) => {
   try {
     const doctor = new Doctor(req.body);
     await doctor.save();
@@ -44,7 +44,7 @@ exports.createDoctor = async (req, res) => {
 };
 
 // Обновить врача
-exports.patchDoctor = async (req, res) => {
+export const patchDoctor = async (req, res) => {
   try {
     const doctor = await Doctor.findByIdAndUpdate(
       req.params.id,
@@ -59,7 +59,7 @@ exports.patchDoctor = async (req, res) => {
 };
 
 // Удалить врача
-exports.deleteDoctor = async (req, res) => {
+export const deleteDoctor = async (req, res) => {
   try {
     const doctor = await Doctor.findByIdAndDelete(req.params.id);
     if (!doctor) return res.status(404).json({ error: 'Врач не найден' });

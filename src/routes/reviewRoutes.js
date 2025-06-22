@@ -1,8 +1,8 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { body, validationResult } = require('express-validator');
-const reviewController = require('../controllers/reviewController');
-const checkAuth = require('../middleware/checkAuth');
+import { body, validationResult } from 'express-validator';
+import reviewController from '../controllers/reviewController';
+import checkAuth from '../middleware/checkAuth';
 
 // Получить все отзывы (публично)
 router.get('/', reviewController.getAllReviews);
@@ -45,4 +45,4 @@ router.patch(
 
 router.delete('/:id', checkAuth, reviewController.deleteReview);
 
-module.exports = router;
+export default router;

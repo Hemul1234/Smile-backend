@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import { body, validationResult } from 'express-validator';
+import authController from '../controllers/authController.js';
+
 const router = express.Router();
-const { body, validationResult } = require('express-validator');
-const authController = require('../controllers/authController');
 
 // Регистрация пользователя
 router.post(
@@ -43,4 +44,4 @@ router.post('/refresh', authController.refresh);
 // Выход пользователя (API)
 router.post('/logout', authController.logout);
 
-module.exports = router;
+export default router;

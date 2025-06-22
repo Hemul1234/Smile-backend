@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const slugify = require('slugify');
+import mongoose from 'mongoose';
+import slugify from 'slugify';
 
 const articleSectionSchema = new mongoose.Schema({
     heading: String,
@@ -37,4 +37,4 @@ serviceSchema.pre('findOneAndUpdate', function(next) {
     next();
 });
 
-module.exports = mongoose.model('Service', serviceSchema);
+export default mongoose.model('Service', serviceSchema);

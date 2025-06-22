@@ -1,9 +1,9 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { body, validationResult } = require('express-validator');
-const serviceController = require('../controllers/serviceController');
-const checkAuth = require('../middleware/checkAuth');
-const checkRole = require('../middleware/checkRole');
+import { body, validationResult } from 'express-validator';
+import serviceController from '../controllers/serviceController';
+import checkAuth from '../middleware/checkAuth';
+import checkRole from '../middleware/checkRole';
 
 // Получить все услуги
 router.get('/', serviceController.getAllServices);
@@ -63,4 +63,4 @@ router.patch(
 // Удалить услугу
 router.delete('/:id', checkAuth, checkRole('admin'), serviceController.deleteService);
 
-module.exports = router;
+export default router;

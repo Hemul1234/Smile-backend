@@ -1,12 +1,12 @@
-const User = require('../models/User');
-const {
+import User from '../models/User.js';
+import {
   generateAccessToken,
   generateRefreshToken,
   verifyRefreshToken
-} = require('../utils/token');
+} from '../utils/token.js';
 
 // Регистрация только обычного пользователя
-exports.register = async (req, res) => {
+export const register = async (req, res) => {
   try {
     const { fullName, email, phone, password } = req.body;
     const candidate = await User.findOne({
@@ -54,7 +54,7 @@ exports.register = async (req, res) => {
 };
 
 // Логин только для пользователя
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
   try {
     const { identifier, password } = req.body;
     if (!identifier || !password)
@@ -100,7 +100,7 @@ exports.login = async (req, res) => {
 };
 
 // Refresh токен доступен только для пользователя
-exports.refresh = (req, res) => {
+export const refresh = (req, res) => {
   const { refreshToken } = req.cookies;
   if (!refreshToken) {
     return res.status(401).json({ message: "Необходим refresh токен" });
@@ -118,7 +118,7 @@ exports.refresh = (req, res) => {
 };
 
 // Logout для пользователя (API)
-exports.logout = (req, res) => {
+export const logout = (req, res) => {
   res.clearCookie('refreshToken', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',

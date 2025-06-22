@@ -1,4 +1,5 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
+
 const JWT_SECRET = process.env.JWT_SECRET || "some-secret-key";
 
 const checkAuth = (req, res, next) => {
@@ -15,4 +16,4 @@ const checkAuth = (req, res, next) => {
   }
 };
 
-module.exports = checkAuth;
+export default checkAuth;

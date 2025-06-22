@@ -1,7 +1,7 @@
-const Review = require('../models/Review');
+import Review from '../models/Review.js';
 
 // Получить все отзывы
-exports.getAllReviews = async (req, res) => {
+export const getAllReviews = async (req, res) => {
   try {
     const reviews = await Review.find();
     res.json(reviews);
@@ -11,7 +11,7 @@ exports.getAllReviews = async (req, res) => {
 };
 
 // Получить отзыв по id
-exports.getReviewById = async (req, res) => {
+export const getReviewById = async (req, res) => {
   try {
     const review = await Review.findById(req.params.id);
     if (!review) return res.status(404).json({ error: 'Отзыв не найден' });
@@ -22,7 +22,7 @@ exports.getReviewById = async (req, res) => {
 };
 
 // Создать новый отзыв
-exports.createReview = async (req, res) => {
+export const createReview = async (req, res) => {
   try {
     const { text, service, rating } = req.body;
     const newReview = new Review({
@@ -37,7 +37,7 @@ exports.createReview = async (req, res) => {
 };
 
 // Обновить отзыв
-exports.patchReview = async (req, res) => {
+export const patchReview = async (req, res) => {
   try {
     const review = await Review.findById(req.params.id);
     if (!review) return res.status(404).json({ error: 'Отзыв не найден' });
@@ -58,7 +58,7 @@ exports.patchReview = async (req, res) => {
 };
 
 // Удалить отзыв
-exports.deleteReview = async (req, res) => {
+export const deleteReview = async (req, res) => {
   try {
     const review = await Review.findById(req.params.id);
     if (!review) return res.status(404).json({ error: 'Отзыв не найден' });

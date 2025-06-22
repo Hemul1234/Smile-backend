@@ -1,9 +1,9 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const { body, validationResult } = require('express-validator');
-const symptomController = require('../controllers/symptomController');
-const checkAuth = require('../middleware/checkAuth');
-const checkRole = require('../middleware/checkRole');
+import { body, validationResult } from 'express-validator';
+import symptomController from '../controllers/symptomController';
+import checkAuth from '../middleware/checkAuth.js';
+import checkRole from '../middleware/checkRole.js';
 
 // Все симптомы
 router.get('/', symptomController.getAllSymptoms);
@@ -61,4 +61,4 @@ router.patch(
 // Удалить
 router.delete('/:id', checkAuth, checkRole('admin'), symptomController.deleteSymptom);
 
-module.exports = router;
+export default router;

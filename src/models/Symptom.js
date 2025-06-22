@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const slugify = require('slugify');
+import mongoose from 'mongoose';
+import slugify from 'slugify';
 
 const symptomSchema = new mongoose.Schema({
   symptom: { type: String, required: true },
@@ -25,4 +25,4 @@ symptomSchema.pre('findOneAndUpdate', function(next) {
   next();
 });
 
-module.exports = mongoose.model('Symptom', symptomSchema);
+export default mongoose.model('Symptom', symptomSchema);

@@ -1,15 +1,20 @@
-const AdminJS = require('adminjs');
-const AdminJSExpress = require('@adminjs/express');
-const AdminJSMongoose = require('@adminjs/mongoose');
-const path = require('path');
+import AdminJS from 'adminjs';
+import AdminJSExpress from '@adminjs/express';
+import AdminJSMongoose from '@adminjs/mongoose';
+import path from 'path';
+import mongoose from 'mongoose';
+import { fileURLToPath } from 'url';
 
-const mongoose = require('mongoose');
-const User = require('../models/User');
-const Doctor = require('../models/Doctor');
-const Service = require('../models/Service');
-const Vacancy = require('../models/Vacancy');
-const Symptom = require('../models/Symptom');
-const Review = require('../models/Review');
+import User from '../models/User.js';
+import Doctor from '../models/Doctor.js';
+import Service from '../models/Service.js';
+import Vacancy from '../models/Vacancy.js';
+import Symptom from '../models/Symptom.js';
+import Review from '../models/Review.js';
+
+// ESM-аналог __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Подключаем адаптер
 AdminJS.registerAdapter(AdminJSMongoose);
@@ -230,18 +235,18 @@ const adminJs = new AdminJS({
       }
     }
   }
-})
+});
 
 // Авторизация только для админов
 const adminRouter = AdminJSExpress.buildAuthenticatedRouter(
   adminJs,
   {
     authenticate: async (email, password) => {
-      const user = await User.findOne({ email, role: 'admin' })
+      const user = await User.findOne({ email, role: 'admin' });
       if (user && await user.comparePassword(password)) {
-        return user
+        return user;
       }
-      return null
+      return null;
     },
     cookiePassword: process.env.ADMIN_COOKIE_SECRET || 'admin-cookie-secret',
   },
@@ -255,6 +260,6 @@ const adminRouter = AdminJSExpress.buildAuthenticatedRouter(
       sameSite: 'strict',
     },
   }
-)
+);
 
-module.exports = { adminJs, adminRouter }
+export { adminJs, adminRouter };

@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
-const fs = require('fs');
-const path = require('path');
-require('dotenv').config();
+const mongoose = from 'mongoose');
+const fs = from 'fs');
+const path = from 'path');
+from 'dotenv').config();
 
-const Review = require('./models/Review');
-const User = require('./models/User');
+const Review = from './models/Review');
+const User = from './models/User');
 
 const reviewsJson = JSON.parse(fs.readFileSync(path.join(__dirname, 'oldReviews.json'), 'utf-8'));
 

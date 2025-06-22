@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const Service = require('./src/models/Service'); // путь к твоей модели
+const mongoose = from 'mongoose');
+const Service = from './src/models/Service'); // путь к твоей модели
 
 const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/smile';
 

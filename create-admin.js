@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const User = require('./src/models/User'); // путь укажи согласно структуре твоего проекта
+import mongoose from 'mongoose';
+import User from './src/models/User'; // путь укажи согласно структуре твоего проекта
 
 async function createAdmin() {
   await mongoose.connect('mongodb://localhost:27017/smile', { });
