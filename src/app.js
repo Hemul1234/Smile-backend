@@ -50,6 +50,17 @@ app.get(adminJs.options.rootPath, (req, res) => {
   res.redirect(`${adminJs.options.rootPath}/resources/User`);
 });
 
+// Редирект контактов на редактирование/создание
+app.get('/admin/resources/ContactInfo', async (req, res, next) => {
+  const ContactInfo = (await import('./models/ContactInfo.js')).default;
+  const doc = await ContactInfo.findOne();
+  if (doc) {
+    res.redirect(`/admin/resources/ContactInfo/records/${doc._id}/edit`);
+  } else {
+    res.redirect(`/admin/resources/ContactInfo/actions/new`);
+  }
+});
+
 app.use(adminJs.options.rootPath, adminRouter);
 
 // MongoDB
