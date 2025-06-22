@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import { body, validationResult } from 'express-validator';
-import reviewController from '../controllers/reviewController.js';
+import * as reviewController from '../controllers/reviewController.js';
 import checkAuth from '../middleware/checkAuth.js';
 
 // Получить все отзывы (публично)

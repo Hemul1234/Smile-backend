@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import { body, validationResult } from 'express-validator';
-import doctorController from '../controllers/doctorController.js';
+import * as doctorController from '../controllers/doctorController.js';
 import checkAuth from '../middleware/checkAuth.js';
 import checkRole from '../middleware/checkRole.js';
 

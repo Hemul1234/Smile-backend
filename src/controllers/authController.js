@@ -1,9 +1,5 @@
 import User from '../models/User.js';
-import {
-  generateAccessToken,
-  generateRefreshToken,
-  verifyRefreshToken
-} from '../utils/token.js';
+import tokenUtils from '../utils/token.js';
 
 // Регистрация только обычного пользователя
 export const register = async (req, res) => {
@@ -28,8 +24,8 @@ export const register = async (req, res) => {
     });
     await user.save();
 
-    const accessToken = generateAccessToken({ userId: user._id, role: user.role });
-    const refreshToken = generateRefreshToken({ userId: user._id, role: user.role });
+    const accessToken = tokenUtils.generateAccessToken({ userId: user._id, role: user.role });
+    const refreshToken = tokenUtils.generateRefreshToken({ userId: user._id, role: user.role });
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
@@ -74,8 +70,8 @@ export const login = async (req, res) => {
       return res.status(403).json({ message: "Вход администратора через API запрещён" });
     }
 
-    const accessToken = generateAccessToken({ userId: user._id, role: user.role });
-    const refreshToken = generateRefreshToken({ userId: user._id, role: user.role });
+    const accessToken = tokenUtils.generateAccessToken({ userId: user._id, role: user.role });
+    const refreshToken = tokenUtils.generateRefreshToken({ userId: user._id, role: user.role });
 
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
@@ -106,11 +102,11 @@ export const refresh = (req, res) => {
     return res.status(401).json({ message: "Необходим refresh токен" });
   }
   try {
-    const payload = verifyRefreshToken(refreshToken);
+    const payload = tokenUtils.verifyRefreshToken(refreshToken);
     if (payload.role !== 'user') {
       return res.status(403).json({ message: "Обновление токена доступно только пользователям" });
     }
-    const accessToken = generateAccessToken({ userId: payload.userId, role: payload.role });
+    const accessToken = tokenUtils.generateAccessToken({ userId: payload.userId, role: payload.role });
     res.json({ token: accessToken });
   } catch (err) {
     return res.status(401).json({ message: "Невалидный refresh токен" });

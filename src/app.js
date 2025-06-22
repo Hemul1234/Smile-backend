@@ -38,7 +38,11 @@ app.use('/api/symptoms', symptomRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 
-// AdminJS
+// Редирект с /admin на /admin/resources/User
+app.get(adminJs.options.rootPath, (req, res) => {
+  res.redirect(`${adminJs.options.rootPath}/resources/User`);
+});
+
 app.use(adminJs.options.rootPath, adminRouter);
 
 // MongoDB
