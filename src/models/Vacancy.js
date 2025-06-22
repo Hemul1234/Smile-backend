@@ -1,10 +1,17 @@
 import mongoose from 'mongoose';
 
-const VacancySchema = new mongoose.Schema({
+const vacancySchema = new mongoose.Schema({
   name: { type: String, required: true },
   salary: { type: Number, required: true },
-  description: [{ type: String, required: true }],
-  requirements: [{ type: String, required: true }]
-}, { timestamps: true })
+  description: [{ type: String }],
+  requirements: [{ type: String }],
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
+});
 
-export default mongoose.model('Vacancy', VacancySchema)
+vacancySchema.pre('save', function (next) {
+  this.updatedAt = Date.now();
+  next();
+});
+
+export default mongoose.model('Vacancy', vacancySchema);

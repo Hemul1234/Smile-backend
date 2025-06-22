@@ -10,6 +10,7 @@ import serviceRoutes from './routes/serviceRoutes.js';
 import symptomRoutes from './routes/symptomRoutes.js';
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/user.js';
+import vacancyRoutes from './routes/vacancyRoutes.js';
 import { adminJs, adminRouter } from './admin/adminjs.js';
 
 const app = express();
@@ -33,6 +34,7 @@ app.use('/api/doctors', doctorRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/services', serviceRoutes);
 app.use('/api/symptoms', symptomRoutes);
+app.use('/api/vacancies', vacancyRoutes);
 
 // Авторизация и пользователь
 app.use('/api/auth', authRoutes);
