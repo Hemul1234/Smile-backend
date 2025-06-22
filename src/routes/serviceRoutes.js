@@ -1,9 +1,9 @@
 import express from 'express';
 const router = express.Router();
 import { body, validationResult } from 'express-validator';
-import serviceController from '../controllers/serviceController';
-import checkAuth from '../middleware/checkAuth';
-import checkRole from '../middleware/checkRole';
+import serviceController from '../controllers/serviceController.js';
+import checkAuth from '../middleware/checkAuth.js';
+import checkRole from '../middleware/checkRole.js';
 
 // Получить все услуги
 router.get('/', serviceController.getAllServices);
