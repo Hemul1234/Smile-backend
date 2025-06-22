@@ -129,56 +129,21 @@ const adminJs = new AdminJS({
     {
       resource: ContactInfo,
       options: {
-        actions: {
-          list: {
-            isAccessible: true,
-            isVisible: true,
-            handler: async (request, response, context) => {
-              const record = await context.resource.findOne();
-              if (record) {
-                return {
-                  redirectUrl: context.h.recordActionUrl({
-                    resourceId: context.resource._decorated?.id() || context.resource.id(),
-                    recordId: record.id(),
-                    actionName: 'edit',
-                  }),
-                };
-              } else {
-                return {
-                  redirectUrl: context.h.resourceActionUrl({
-                    resourceId: context.resource._decorated?.id() || context.resource.id(),
-                    actionName: 'new',
-                  }),
-                };
-              }
-            }
-          },
-          new: {
-            isAccessible: async () => {
-              const count = await ContactInfo.countDocuments();
-              return count === 0;
-            },
-            isVisible: async () => {
-              const count = await ContactInfo.countDocuments();
-              return count === 0;
-            },
-          },
-          edit: { isAccessible: true, isVisible: true },
-          show: { isAccessible: true, isVisible: true },
-          delete: { isAccessible: false, isVisible: false },
-          bulkDelete: { isAccessible: false, isVisible: false },
-        },
         properties: {
           clinicName: { label: 'Название клиники' },
           address: { label: 'Адрес' },
           phone: { label: 'Телефон' },
           email: { label: 'Электронная почта' },
           workHours: { label: 'Время работы' },
-          map: { label: 'Координаты карты' },
           'map.lat': { label: 'Широта (lat)' },
           'map.lng': { label: 'Долгота (lng)' },
           additional: { label: 'Дополнительно' },
           createdAt: { label: 'Создано' }
+        },
+        actions: {
+          new: { isAccessible: false, isVisible: false,},
+          delete: { isAccessible: false, isVisible: false },
+          bulkDelete: { isAccessible: false, isVisible: false }
         }
       }
     }
@@ -299,7 +264,7 @@ const adminJs = new AdminJS({
               createdAt: 'Создана'
             }
           },
-           ContactInfo: {
+          ContactInfo: {
             properties: {
               clinicName: 'Название клиники',
               address: 'Адрес',

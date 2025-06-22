@@ -51,10 +51,10 @@ app.get(adminJs.options.rootPath, (req, res) => {
 });
 
 // Редирект контактов на редактирование/создание
-app.get('/admin/resources/ContactInfo', async (req, res, next) => {
+app.get(/^\/admin\/resources\/ContactInfo\/?$/, async (req, res) => {
   const ContactInfo = (await import('./models/ContactInfo.js')).default;
   const doc = await ContactInfo.findOne();
-  if (doc) {
+  if (doc && doc._id) {
     res.redirect(`/admin/resources/ContactInfo/records/${doc._id}/edit`);
   } else {
     res.redirect(`/admin/resources/ContactInfo/actions/new`);
