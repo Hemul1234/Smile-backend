@@ -7,8 +7,9 @@ import checkRole from '../middleware/checkRole.js';
 
 // CRUD маршруты
 router.get('/', doctorController.getAllDoctors);
-router.get('/:id', doctorController.getDoctorById);
+router.get('/id/:id', doctorController.getDoctorById);
 router.get('/slug/:slug', doctorController.getDoctorBySlug);
+router.get('/category/:category', doctorController.getDoctorByCategory);
 
 router.post(
   '/',

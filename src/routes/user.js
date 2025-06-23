@@ -1,7 +1,9 @@
 import express from 'express';
 const router = express.Router();
 import checkAuth from '../middleware/checkAuth.js';
-import User from '../models/User.js';
+import User from '../models/User.js';import { patchMe } from '../controllers/userController.js';
+
+router.patch('/me', checkAuth, patchMe);
 
 router.get('/me', checkAuth, async (req, res) => {
   const user = await User.findById(req.user.userId).select('-password');

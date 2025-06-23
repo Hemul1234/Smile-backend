@@ -9,7 +9,7 @@ router.post(
   '/register',
   [
     body('fullName').notEmpty().withMessage('Имя обязательно'),
-    body('phone').matches(/^\+?[0-9]{10,15}$/).withMessage('Телефон некорректный'),
+    body('phone').matches(/^\+?[0-9]{11}$/).withMessage('Телефон некорректный'),
     body('email').isEmail().withMessage('Email некорректный'),
     body('password').isLength({ min: 6 }).withMessage('Пароль минимум 6 символов')
   ],

@@ -32,6 +32,16 @@ export const getDoctorBySlug = async (req, res) => {
   }
 };
 
+// Получить врачей по категории
+export const getDoctorByCategory = async (req, res) => {
+  try {
+    const doctors = await Doctor.find({ category: req.params.category });
+    res.json(doctors);
+  } catch (err) {
+    res.status(500).json({ error: 'Ошибка сервера при поиске врачей по категории' });
+  }
+};
+
 // Создать врача
 export const createDoctor = async (req, res) => {
   try {

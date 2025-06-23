@@ -41,9 +41,12 @@ app.use('/api/vacancies', vacancyRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/contact-info', contactInfoRoutes);
 
+app.use('/images', express.static('public/images'));
+
 // Авторизация и пользователь
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/user', userRoutes);
 
 // Редирект с /admin на /admin/resources/User
 app.get(adminJs.options.rootPath, (req, res) => {

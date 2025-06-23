@@ -12,13 +12,13 @@ router.get('/', symptomController.getAllSymptoms);
 router.get('/:id', symptomController.getSymptomById);
 
 // Поиск по slug симптома
-router.get('/slug/:slug', symptomController.getSymptomBySlug);
+router.get('/:slug', symptomController.getSymptomBySlug);
 
 // Поиск по категории
-router.get('/category/:category', symptomController.getSymptomsByCategory);
+router.get('/:category', symptomController.getSymptomsByCategory);
 
 // Поиск по slug-service
-router.get('/service/:slugService', symptomController.getSymptomsBySlugService);
+router.get('/:slugService', symptomController.getSymptomsBySlugService);
 
 // Создать симптом
 router.post(
