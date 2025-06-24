@@ -22,8 +22,6 @@ router.post(
     body('phone').notEmpty().withMessage('Телефон обязателен'),
     body('date').notEmpty().withMessage('Дата обязательна'),
     body('time').notEmpty().withMessage('Время обязательно'),
-    body('doctor').notEmpty().withMessage('doctor обязателен'),
-    body('service').notEmpty().withMessage('Услуга обязательна'),
     body('personalDataConsent').custom((value) => value === true).withMessage('Необходимо согласие на обработку персональных данных'),
     // callMe и comment — опционально
   ],

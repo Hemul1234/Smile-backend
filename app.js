@@ -3,6 +3,11 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 import doctorRoutes from './routes/doctorRoutes.js';
 import reviewRoutes from './routes/reviewRoutes.js';
@@ -41,7 +46,9 @@ app.use('/api/vacancies', vacancyRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/contact-info', contactInfoRoutes);
 
-app.use('/images', express.static('public/images'));
+// Статические файлы
+app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
+
 
 // Авторизация и пользователь
 app.use('/api/auth', authRoutes);

@@ -15,7 +15,7 @@ router.get('/:category', serviceController.getServicesByCategory);
 router.get('/slug/:slug', serviceController.getServiceBySlug);
 
 // Получить услугу по категории и slug (если надо строгую фильтрацию)
-router.get('/:category/:slug', serviceController.getServiceByCategoryAndSlug);
+router.get('/category/:category/slug/:slug', serviceController.getServiceByCategoryAndSlug);
 
 // Получить услугу по id
 router.get('/:id', serviceController.getServiceById);
